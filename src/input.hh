@@ -20,5 +20,7 @@ class input {
 
 void keySpecialDown(int,int,int);
 void keySpecialUp(int,int,int);
+void keyDown(unsigned char,int,int);
+void keyUp(unsigned char,int,int);
 
 #endif

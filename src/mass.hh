@@ -7,7 +7,7 @@
 class mass {
 	public:
 	double m;
-	vec position, momentum;
+	vec position, momentum, ipos, imo;
 	bool fixed;
 
 	mass();
@@ -18,6 +18,7 @@ class mass {
 
 	void update(double);
 	void impulse(vec);
+	void reset();
 
 	void fix();
 	void unfix();

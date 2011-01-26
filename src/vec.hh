@@ -14,6 +14,8 @@ class vec {
 	vec operator-();
 	vec& operator*=(double);
 	vec operator/(double);
+	bool operator==(vec);
+	bool operator!=(vec);
 	double norm();
 	double dot(vec);
 

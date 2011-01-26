@@ -8,6 +8,8 @@ character::character(double r, double m, vec pos) {
 	mass = m;
 	position = pos;
 	momentum = vec();
+	ipos = position;
+	imo = momentum;
 }
 
 character::character(double r, double m, vec pos, vec mo) {
@@ -15,6 +17,8 @@ character::character(double r, double m, vec pos, vec mo) {
 	mass = m;
 	position = pos;
 	momentum = mo;
+	ipos = position;
+	imo = momentum;
 }
 
 void character::impulse(vec I) {
@@ -26,7 +30,7 @@ bool between(vec a, vec b, vec c) {
 	return (b-a).dot(c-a) < 0;
 }
 
-void character::collide(spring* s, double dt) {
+void character::collide(spring* s) {
 	vec L = s->m2->position - s->m1->position;
 	vec uL = L/L.norm();
 	vec v = position - s->m1->position;
@@ -55,6 +59,7 @@ void character::jump(spring* s) {
 	vec r = nr/nr.norm() * radius;
 	vec ur = r/r.norm();
 	vec contact = position + nr;
+	collide(s);
 	if(nr.norm() < radius + 1e-2 && between(contact,s->m1->position,s->m2->position)) {
 		impulse(-3*ur);
 		s->impulse(contact,3*ur);
@@ -64,4 +69,9 @@ void character::jump(spring* s) {
 
 void character::update(double dt) {
 	position += momentum/mass*dt;
+}
+
+void character::reset() {
+	position = ipos;
+	momentum = imo;
 }

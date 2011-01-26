@@ -11,10 +11,33 @@ input::input(character* c, world* w) {
 
 	glutSpecialFunc(keySpecialDown);
 	glutSpecialUpFunc(keySpecialUp);
+
+	glutKeyboardFunc(keyDown);
+	glutKeyboardUpFunc(keyUp);
 }
 
 void input::update(double dt) {
 	mover->impulse(force*dt);
+}
+
+void keyDown(unsigned char key, int x, int y) {
+	switch(key) {
+	}
+}
+
+void keyUp(unsigned char key, int x, int y) {
+	switch(key) {
+		case 27: // ESC
+			if(main_input->env->paused) {
+				main_input->env->unpause();
+			} else {
+				main_input->env->pause();
+			}
+			break;
+		case 'r':
+			main_input->env->reset();
+			break;
+	}
 }
 
 void keySpecialDown(int key, int x, int y) {
@@ -28,8 +51,12 @@ void keySpecialDown(int key, int x, int y) {
 		case GLUT_KEY_UP:
 			if(main_input->jumped) break;
 			main_input->jumped = true;
+			vec premo = main_input->mover->momentum;
 			for(std::vector<spring*>::iterator iter = main_input->env->springs.begin(); iter != main_input->env->springs.end(); iter++) {
 				main_input->mover->jump(*iter);
+				if(main_input->mover->momentum != premo) {
+					break;
+				}
 			}
 			break;
 	}

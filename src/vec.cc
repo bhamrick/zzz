@@ -65,3 +65,11 @@ double vec::norm() {
 double vec::dot(vec o) {
 	return x*o.x + y*o.y;
 }
+
+bool vec::operator==(vec o) {
+	return x == o.x && y == o.y;
+}
+
+bool vec::operator!=(vec o) {
+	return x != o.x || y != o.y;
+}

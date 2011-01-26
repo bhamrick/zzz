@@ -32,3 +32,8 @@ void spring::impulse(vec pos, vec I) {
 	m1->impulse(I*d2/(d1+d2));
 	m2->impulse(I*d1/(d1+d2));
 }
+
+void spring::reset() {
+	m1->reset();
+	m2->reset();
+}

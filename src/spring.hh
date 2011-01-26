@@ -15,6 +15,7 @@ class spring {
 	spring(mass*,mass*,double,double);
 
 	void update(double);
+	void reset();
 	void impulse(vec,vec);
 };
 
