@@ -67,3 +67,49 @@ void world::reset() {
 	}
 	main_view->reset();
 }
+
+void world::draw() {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glTranslatef(-(main_view->minx + main_view->maxx)/2., -(main_view->miny + main_view->maxy)/2., 0.0);
+
+	glClearColor(1.0,1.0,1.0,0.0);
+	glColor3f(0.0,0.0,0.0);
+
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	glBegin(GL_QUADS);
+	for(std::vector<mass*>::iterator iter = masses.begin(); iter != masses.end(); iter++) {
+		double x = (*iter)->position.x, y = (*iter)->position.y;
+		double eps = 1e-2;
+		glVertex2f(x-eps,y-eps);
+		glVertex2f(x+eps,y-eps);
+		glVertex2f(x+eps,y+eps);
+		glVertex2f(x-eps,y+eps);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
+	for(std::vector<spring*>::iterator iter = springs.begin(); iter != springs.end(); iter++) {
+		glVertex2f((*iter)->m1->position.x,(*iter)->m1->position.y);
+		glVertex2f((*iter)->m2->position.x,(*iter)->m2->position.y);
+	}
+	glEnd();
+
+	for(std::vector<character*>::iterator iter = characters.begin(); iter != characters.end(); iter++) {
+		draw_circle((*iter)->position,(*iter)->radius);
+//		glBegin(GL_LINES);
+//			glVertex2f((*iter)->position.x, (*iter)->position.y);
+//			glVertex2f((*iter)->position.x - 0.05*(*iter)->momentum.x, (*iter)->position.y - 0.05*(*iter)->momentum.y);
+//		glEnd();
+	}
+
+	// draw the goal
+	double radius = 0.03;
+	glBegin(GL_LINES);
+	for(int i = 0; i<5; i++) {
+		glVertex2f(goal.x + radius*sin(2*pi*i/5), goal.y+radius*cos(2*pi*i/5));
+		glVertex2f(goal.x + radius*sin(2*pi*(i+2)/5), goal.y + radius*cos(2*pi*(i+2)/5));
+	}
+	glEnd();
+}

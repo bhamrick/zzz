@@ -12,6 +12,7 @@ class world;
 #include<character.hh>
 #include<input.hh>
 #include<view.hh>
+#include<display.hh>
 
 class world {
 	public:
@@ -33,6 +34,8 @@ class world {
 	void add_character(character*);
 	void pause();
 	void unpause();
+	void draw();
+	void draw_goal();
 };
 
 #endif

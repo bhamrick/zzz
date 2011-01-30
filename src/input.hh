@@ -6,6 +6,7 @@ class input;
 #include<GL/glut.h>
 #include<world.hh>
 #include<character.hh>
+#include<mode.hh>
 
 class input {
 	public:
@@ -22,5 +23,6 @@ void keySpecialDown(int,int,int);
 void keySpecialUp(int,int,int);
 void keyDown(unsigned char,int,int);
 void keyUp(unsigned char,int,int);
+void input_set_mode(mode);
 
 #endif

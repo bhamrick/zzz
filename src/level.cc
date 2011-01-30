@@ -36,4 +36,5 @@ void load(char* fname, world* w) {
 			w->add_spring(new spring(w->masses[i],w->masses[j],k));
 		}
 	}
+	fclose(fin);
 }
