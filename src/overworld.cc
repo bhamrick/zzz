@@ -39,10 +39,22 @@ void overworld_loc::set_neighbors(overworld_loc *u, overworld_loc *r, overworld_
 
 overworld::overworld() {
 	current_loc = NULL;
+	overworld_menu = new menu();
+	overworld_menu->add_item(new menu_item((char*)"Return to game"));
+	overworld_menu->add_item(new menu_item((char*)"Save"));
+	overworld_menu->add_item(new menu_item((char*)"Options"));
+	overworld_menu->add_item(new menu_item((char*)"Quit game"));
+	paused = false;
 }
 
 overworld::overworld(char* fname) {
 	load(fname);
+	overworld_menu = new menu();
+	overworld_menu->add_item(new menu_item((char*)"Return to game"));
+	overworld_menu->add_item(new menu_item((char*)"Save"));
+	overworld_menu->add_item(new menu_item((char*)"Options"));
+	overworld_menu->add_item(new menu_item((char*)"Quit game"));
+	paused = false;
 }
 
 void overworld::add_location(overworld_loc* l) {
@@ -71,17 +83,11 @@ void overworld::draw() {
 
 	draw_circle(current_loc->pos, 0.03);
 	
-	glPushMatrix();
-	glLoadIdentity();
-	glRasterPos2d(-1.0,0.9);
-	for(int i = 0; i<strlen(current_loc->levelname); i++) {
-		if(current_loc->levelname[i] != '_') {
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, toupper(current_loc->levelname[i]));
-		} else {
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ' ');
-		}
+	draw_string(-0.99, 0.99, current_loc->levelname);
+
+	if(paused) {
+		overworld_menu->draw();
 	}
-	glPopMatrix();
 }
 
 void overworld::set_current_location(overworld_loc* l) {
@@ -126,4 +132,12 @@ void overworld::transition(int d) {
 	if(new_loc) {
 		current_loc = new_loc;
 	}
+}
+
+void overworld::pause() {
+	paused = true;
+}
+
+void overworld::unpause() {
+	paused = false;
 }

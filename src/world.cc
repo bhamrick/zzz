@@ -6,6 +6,11 @@ world::world(overworld* over) {
 	main_view = new view();
 	gettimeofday(&last_update, NULL);
 	this->over = over;
+
+	world_menu = new menu();
+	world_menu->add_item(new menu_item((char*)"Resume"));
+	world_menu->add_item(new menu_item((char*)"Restart level"));
+	world_menu->add_item(new menu_item((char*)"Exit level"));
 }
 
 void world::update() {
@@ -113,4 +118,8 @@ void world::draw() {
 		glVertex2f(goal.x + radius*sin(2*pi*(i+2)/5), goal.y + radius*cos(2*pi*(i+2)/5));
 	}
 	glEnd();
+	
+	if(paused && world_menu) {
+		world_menu->draw();
+	}
 }

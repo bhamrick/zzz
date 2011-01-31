@@ -14,6 +14,7 @@ class world;
 #include<view.hh>
 #include<display.hh>
 #include<overworld.hh>
+#include<menu.hh>
 
 class world {
 	public:
@@ -22,6 +23,7 @@ class world {
 	std::vector<character*> characters;
 	struct timeval last_update;
 	overworld* over;
+	menu* world_menu;
 	input* input_handler;
 	view* main_view;
 	bool paused;

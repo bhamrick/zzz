@@ -6,7 +6,7 @@ mass::mass() {
 	momentum = vec();
 	ipos = position;
 	imo = momentum;
-	fixed = false;
+	fixed = 0;
 }
 
 mass::mass(double m) {
@@ -15,7 +15,7 @@ mass::mass(double m) {
 	momentum = vec();
 	ipos = position;
 	imo = momentum;
-	fixed = false;
+	fixed = 0;
 }
 
 mass::mass(double m, vec pos) {
@@ -24,7 +24,7 @@ mass::mass(double m, vec pos) {
 	momentum = vec();
 	ipos = position;
 	imo = momentum;
-	fixed = false;
+	fixed = 0;
 }
 
 mass::mass(double m, vec pos, vec mo) {
@@ -33,43 +33,65 @@ mass::mass(double m, vec pos, vec mo) {
 	momentum = mo;
 	ipos = position;
 	imo = momentum;
-	fixed = false;
+	fixed = 0;
 }
 
-mass::mass(double m, vec pos, vec mo, bool fixed) {
+mass::mass(double m, vec pos, vec mo, int fixed) {
 	this->m = m;
 	position = pos;
 	momentum = mo;
 	this->fixed = fixed;
-	if(fixed) {
-		momentum = vec();
+	switch(fixed) {
+		case 1:
+			momentum = vec();
+			break;
+		case 2:
+			momentum.x = 0;
+			break;
+		case 3:
+			momentum.y = 0;
+			break;
 	}
 	ipos = position;
 	imo = momentum;
 }
 
 void mass::update(double dt) {
-	if(!fixed) {
-		position += momentum*dt/m;
-	} else {
-		momentum = vec();
+	switch(fixed) {
+		case 1:
+			momentum = vec();
+			break;
+		case 2:
+			momentum.x = 0;
+			break;
+		case 3:
+			momentum.y = 0;
+			break;
 	}
+	position += momentum*dt/m;
 }
 
 void mass::impulse(vec I) {
-	if(!fixed) {
-		momentum += I;
-	} else {
-		momentum = vec();
+	momentum += I;
+	switch(fixed) {
+		case 1:
+			momentum = vec();
+			break;
+		case 2:
+			momentum.x = 0;
+			break;
+		case 3:
+			momentum.y = 0;
+			break;
 	}
 }
 
 void mass::fix() {
-	fixed = true;
+	fixed = 1;
 }
 
 void mass::unfix() {
-	fixed = false;
+	fixed = 0;
 }
 
 void mass::reset() {

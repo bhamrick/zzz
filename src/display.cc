@@ -3,6 +3,8 @@
 #include<display.hh>
 #include<cstdio>
 #include<const.hh>
+#include<cstring>
+#include<ctype.h>
 
 world* display_world;
 overworld* display_overworld;
@@ -44,4 +46,23 @@ void draw_circle(vec center, double radius) {
 
 void display_set_mode(mode m) {
 	display_mode = m;
+}
+
+void draw_string(vec pos, char* s) {
+	draw_string(pos.x, pos.y, s);
+}
+
+void draw_string(double x, double y, char* s) {
+	glPushMatrix();
+	glLoadIdentity();
+	double dy = 40./glutGet(GLUT_WINDOW_HEIGHT);
+	glRasterPos2d(x,y-dy);
+	for(int i = 0; i<strlen(s); i++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (s[i] == '_' ? ' ' : toupper(s[i])));
+	}
+	glPopMatrix();
+}
+
+double line_height() {
+	return 50./glutGet(GLUT_WINDOW_HEIGHT);
 }

@@ -1,8 +1,8 @@
 CC=g++
-CCFLAGS=-I. -g
-LDFLAGS=-lGL -lGLU -lglut -g
+CCFLAGS=-I.
+LDFLAGS=-lGL -lGLU -lglut
 TARGET=a.out
-OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o
+OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o menu.o
 
 all: $(TARGET)
 

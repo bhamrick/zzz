@@ -28,4 +28,7 @@ void keyDown(unsigned char,int,int);
 void keyUp(unsigned char,int,int);
 void input_set_mode(mode);
 
+void world_menu_handler(int);
+void overworld_menu_handler(int);
+
 #endif

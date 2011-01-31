@@ -26,7 +26,7 @@ void load(char* fname, world* w) {
 		vec pos, mo;
 		int fix;
 		fscanf(fin,"%lf%lf%lf%lf%lf%d",&m,&pos.x,&pos.y,&mo.x,&mo.y,&fix);
-		w->add_mass(new mass(m,pos,mo,(bool)fix));
+		w->add_mass(new mass(m,pos,mo,fix));
 	}
 	// springs
 	fscanf(fin,"%d",&N);
