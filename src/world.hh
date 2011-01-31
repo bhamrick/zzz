@@ -13,6 +13,7 @@ class world;
 #include<input.hh>
 #include<view.hh>
 #include<display.hh>
+#include<overworld.hh>
 
 class world {
 	public:
@@ -20,13 +21,14 @@ class world {
 	std::vector<spring*> springs;
 	std::vector<character*> characters;
 	struct timeval last_update;
+	overworld* over;
 	input* input_handler;
 	view* main_view;
 	bool paused;
 	
 	vec goal;
 
-	world();
+	world(overworld*);
 	void update();
 	void reset();
 	void add_mass(mass*);

@@ -1,4 +1,5 @@
 #include<input.hh>
+#include<cstdio>
 
 input* main_input;
 mode input_mode;
@@ -8,6 +9,7 @@ input::input(character* c, world* w) {
 	mover = c;
 	force = vec();
 	env = w;
+	over = w->over;
 	jumped = false;
 
 	glutSpecialFunc(keySpecialDown);
@@ -41,7 +43,14 @@ void keyDown(unsigned char key, int x, int y) {
 
 	case OVERWORLD_MODE:
 		switch(key) {
-			
+			case ' ':
+			case '\n':
+			case '\r':
+				char fname[50];
+				sprintf(fname,"levels/%s",main_input->over->current_loc->levelname);
+				load(fname, main_input->env);
+				set_mode(WORLD_MODE);
+				break;
 		}
 		break;
 
@@ -91,7 +100,18 @@ void keySpecialDown(int key, int x, int y) {
 	
 	case OVERWORLD_MODE:
 		switch(key) {
-			
+			case GLUT_KEY_UP:
+				main_input->over->transition(0);
+				break;
+			case GLUT_KEY_RIGHT:
+				main_input->over->transition(1);
+				break;
+			case GLUT_KEY_DOWN:
+				main_input->over->transition(2);
+				break;
+			case GLUT_KEY_LEFT:
+				main_input->over->transition(3);
+				break;
 		}
 		break;
 

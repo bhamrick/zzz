@@ -30,6 +30,7 @@ class overworld {
 	void draw();
 	void set_current_location(overworld_loc*);
 	void load(char*);
+	void transition(int);
 };
 
 #endif

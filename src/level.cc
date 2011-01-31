@@ -11,7 +11,11 @@ void load(char* fname, world* w) {
 	character* player = new character(0.03,1.0,start);
 	w->add_character(player);
 	w->main_view->follow(player);
-	w->input_handler = new input(player,w);
+	if(w->input_handler) {
+		w->input_handler->mover = player;
+	} else {
+		w->input_handler = new input(player,w);
+	}
 	
 	fscanf(fin,"%lf%lf",&w->goal.x,&w->goal.y);
 	// masses

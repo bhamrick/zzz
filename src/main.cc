@@ -13,15 +13,15 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(600,600);
 	glutCreateWindow("zzz");
 	
-	world* w = new world();
 	overworld* ow = new overworld((char*)"files/overworld");
+	world* w = new world(ow);
 
-//	load((char*)"levels/test",w);
-	load((char*)"levels/parabola",w);
+	load((char*)"levels/test",w);
+//	load((char*)"levels/parabola",w);
 
 	init_global_update(w);
 	init_display(w, ow);
-	set_mode(WORLD_MODE);
+	set_mode(OVERWORLD_MODE);
 
 	glutDisplayFunc(display);
 	glutTimerFunc(10,refresh,0);

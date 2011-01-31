@@ -1,10 +1,11 @@
 #include<world.hh>
 #include<cstdio>
 
-world::world() {
+world::world(overworld* over) {
 	paused = false;
 	main_view = new view();
 	gettimeofday(&last_update, NULL);
+	this->over = over;
 }
 
 void world::update() {

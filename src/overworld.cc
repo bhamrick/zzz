@@ -1,7 +1,9 @@
 #include<overworld.hh>
 #include<display.hh>
 #include<GL/glut.h>
+#include<cstring>
 #include<cstdio>
+#include<ctype.h>
 
 overworld_loc::overworld_loc() {
 	levelname = NULL;
@@ -68,6 +70,18 @@ void overworld::draw() {
 	glEnd();
 
 	draw_circle(current_loc->pos, 0.03);
+	
+	glPushMatrix();
+	glLoadIdentity();
+	glRasterPos2d(-1.0,0.9);
+	for(int i = 0; i<strlen(current_loc->levelname); i++) {
+		if(current_loc->levelname[i] != '_') {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, toupper(current_loc->levelname[i]));
+		} else {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, ' ');
+		}
+	}
+	glPopMatrix();
 }
 
 void overworld::set_current_location(overworld_loc* l) {
@@ -91,4 +105,25 @@ void overworld::load(char* fname) {
 				      l == -1 ? NULL : locs[l]);
 	}
 	current_loc = locs[S];
+}
+
+void overworld::transition(int d) {
+	overworld_loc *new_loc = NULL;
+	switch(d) {
+		case 0: // up
+			new_loc = current_loc->up;
+			break;
+		case 1: // right
+			new_loc = current_loc->right;
+			break;
+		case 2: // down
+			new_loc = current_loc->down;
+			break;
+		case 3: // left
+			new_loc = current_loc->left;
+			break;
+	}
+	if(new_loc) {
+		current_loc = new_loc;
+	}
 }

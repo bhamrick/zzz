@@ -1,10 +1,12 @@
 CC=g++
-CCFLAGS=-I. -O2
-LDFLAGS=-lGL -lGLU -lglut -O2
+CCFLAGS=-I. -g
+LDFLAGS=-lGL -lGLU -lglut -g
 TARGET=a.out
 OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o
 
-all: $(OBJECTS)
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
 	$(CC) -o $(TARGET) $(LDFLAGS) $(OBJECTS)
 
 clean:

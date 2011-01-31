@@ -7,12 +7,15 @@ class input;
 #include<world.hh>
 #include<character.hh>
 #include<mode.hh>
+#include<overworld.hh>
+#include<level.hh>
 
 class input {
 	public:
 	vec force;
 	character* mover;
 	world* env;
+	overworld* over;
 	bool jumped;
 
 	input(character*, world*);
