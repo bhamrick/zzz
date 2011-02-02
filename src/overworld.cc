@@ -7,10 +7,12 @@
 
 overworld_loc::overworld_loc() {
 	levelname = NULL;
+	cleared = false;
 }
 
 overworld_loc::overworld_loc(char* n) {
 	levelname = n;
+	cleared = false;
 }
 
 void overworld_loc::set_neighbor(int d, overworld_loc* n) {
@@ -35,6 +37,19 @@ void overworld_loc::set_neighbors(overworld_loc *u, overworld_loc *r, overworld_
 	right = r;
 	down = d;
 	left = l;
+}
+
+bool overworld_loc::unlocked() {
+	for(std::vector<overworld_loc*>::iterator iter = prereqs.begin(); iter != prereqs.end(); iter++) {
+		if(!(*iter)->cleared) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void overworld_loc::add_prereq(overworld_loc* p) {
+	prereqs.push_back(p);
 }
 
 overworld::overworld() {
@@ -63,6 +78,7 @@ void overworld::add_location(overworld_loc* l) {
 
 void overworld::draw() {
 	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
 	glLoadIdentity();
 
 	glClearColor(1.0,1.0,1.0,0.0);
@@ -72,14 +88,23 @@ void overworld::draw() {
 	
 	glBegin(GL_QUADS);
 		for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
-			double eps = 1e-2;
-			double x = (*iter)->pos.x, y = (*iter)->pos.y;
-			glVertex2f(x-eps,y-eps);
-			glVertex2f(x+eps,y-eps);
-			glVertex2f(x+eps,y+eps);
-			glVertex2f(x-eps,y+eps);
+			if((*iter)->unlocked()) {
+				if((*iter)->cleared) {
+					glColor3f(0.0,1.0,0.0);
+				} else {
+					glColor3f(1.0,0.0,0.0);
+				}
+				double eps = 1e-2;
+				double x = (*iter)->pos.x, y = (*iter)->pos.y;
+				glVertex2f(x-eps,y-eps);
+				glVertex2f(x+eps,y-eps);
+				glVertex2f(x+eps,y+eps);
+				glVertex2f(x-eps,y+eps);
+			}
 		}
 	glEnd();
+
+	glColor3f(0.0,0.0,0.0);
 
 	draw_circle(current_loc->pos, 0.03);
 	
@@ -88,6 +113,8 @@ void overworld::draw() {
 	if(paused) {
 		overworld_menu->draw();
 	}
+
+	glPopMatrix();
 }
 
 void overworld::set_current_location(overworld_loc* l) {
@@ -109,6 +136,13 @@ void overworld::load(char* fname) {
 				      r == -1 ? NULL : locs[r],
 				      d == -1 ? NULL : locs[d],
 				      l == -1 ? NULL : locs[l]);
+		int M;
+		fscanf(fin,"%d",&M);
+		for(int j = 0; j<M; j++) {
+			int preid;
+			fscanf(fin,"%d",&preid);
+			locs[i]->add_prereq(locs[preid]);
+		}
 	}
 	current_loc = locs[S];
 }
@@ -129,7 +163,7 @@ void overworld::transition(int d) {
 			new_loc = current_loc->left;
 			break;
 	}
-	if(new_loc) {
+	if(new_loc && new_loc->unlocked()) {
 		current_loc = new_loc;
 	}
 }
@@ -140,4 +174,8 @@ void overworld::pause() {
 
 void overworld::unpause() {
 	paused = false;
+}
+
+void overworld::clear_current() {
+	current_loc->cleared = true;
 }

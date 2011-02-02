@@ -1,6 +1,6 @@
 CC=g++
-CCFLAGS=-I.
-LDFLAGS=-lGL -lGLU -lglut
+CCFLAGS=-I. -O2
+LDFLAGS=-lGL -lGLU -lglut -O2
 TARGET=a.out
 OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o menu.o
 

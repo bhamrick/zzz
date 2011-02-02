@@ -21,6 +21,7 @@ class world {
 	std::vector<mass*> masses;
 	std::vector<spring*> springs;
 	std::vector<character*> characters;
+	character* player;
 	struct timeval last_update;
 	overworld* over;
 	menu* world_menu;
@@ -40,6 +41,7 @@ class world {
 	void unpause();
 	void draw();
 	void draw_goal();
+	void win();
 };
 
 #endif

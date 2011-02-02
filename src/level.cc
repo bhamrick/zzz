@@ -10,6 +10,7 @@ void load(char* fname, world* w) {
 	fscanf(fin,"%lf%lf",&start.x,&start.y);
 	character* player = new character(0.03,1.0,start);
 	w->add_character(player);
+	w->player = player;
 	w->main_view->follow(player);
 	if(w->input_handler) {
 		w->input_handler->mover = player;

@@ -13,11 +13,15 @@ class overworld_loc {
 	vec pos;
 	char* levelname;
 	overworld_loc *up, *right, *down, *left;
+	bool cleared;
+	std::vector<overworld_loc*> prereqs;
 	
 	overworld_loc();
 	overworld_loc(char*);
 	void set_neighbor(int, overworld_loc*);
 	void set_neighbors(overworld_loc*, overworld_loc*, overworld_loc*, overworld_loc*);
+	bool unlocked();
+	void add_prereq(overworld_loc*);
 };
 
 class overworld {
@@ -36,6 +40,7 @@ class overworld {
 	void transition(int);
 	void pause();
 	void unpause();
+	void clear_current();
 };
 
 #endif

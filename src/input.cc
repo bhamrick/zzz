@@ -173,6 +173,7 @@ void keySpecialUp(int key, int x, int y) {
 
 void input_set_mode(mode m) {
 	input_mode = m;
+	if(m == WORLD_MODE) main_input->force = vec();
 }
 
 void world_menu_handler(int action) {

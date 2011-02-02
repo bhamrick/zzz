@@ -40,7 +40,13 @@ void world::update() {
 			(*iter)->update(dt);
 		}
 	}
+
 	main_view->update();
+
+	if((player->position - goal).norm() < player->radius + GOAL_RADIUS) {
+		win();
+	}
+
 	last_update = now;
 }
 
@@ -122,4 +128,9 @@ void world::draw() {
 	if(paused && world_menu) {
 		world_menu->draw();
 	}
+}
+
+void world::win() {
+	over->clear_current();
+	set_mode(OVERWORLD_MODE);
 }
