@@ -11,6 +11,8 @@ world::world(overworld* over) {
 	world_menu->add_item(new menu_item((char*)"Resume"));
 	world_menu->add_item(new menu_item((char*)"Restart level"));
 	world_menu->add_item(new menu_item((char*)"Exit level"));
+
+	timestamp = 0.0;
 }
 
 void world::update() {
@@ -18,6 +20,7 @@ void world::update() {
 	gettimeofday(&now, NULL);
 	double dt = now.tv_sec - last_update.tv_sec + 1e-6*(now.tv_usec - last_update.tv_usec);
 	if(dt < 0.01 && !paused) {
+		timestamp += dt;
 		input_handler->update(dt);
 		// Springs
 		for(std::vector<spring*>::iterator iter = springs.begin(); iter != springs.end(); iter++) {
@@ -78,6 +81,7 @@ void world::reset() {
 		(*iter)->reset();
 	}
 	main_view->reset();
+	timestamp = 0.0;
 }
 
 void world::draw() {
@@ -124,6 +128,10 @@ void world::draw() {
 		glVertex2f(goal.x + radius*sin(2*pi*(i+2)/5), goal.y + radius*cos(2*pi*(i+2)/5));
 	}
 	glEnd();
+
+	char timestr[10];
+	sprintf(timestr,"%.2lf",timestamp);
+	draw_string(-0.05,1.0,timestr);
 	
 	if(paused && world_menu) {
 		world_menu->draw();
@@ -131,6 +139,9 @@ void world::draw() {
 }
 
 void world::win() {
+	if(!over->current_loc->cleared || timestamp < over->current_loc->record) {
+		over->current_loc->record = timestamp;
+	}
 	over->clear_current();
 	set_mode(OVERWORLD_MODE);
 }

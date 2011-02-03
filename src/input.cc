@@ -1,6 +1,8 @@
 #include<input.hh>
 #include<cstdio>
 #include<cstdlib>
+#include<main_screen.hh>
+#include<options.hh>
 
 input* main_input;
 mode input_mode;
@@ -72,6 +74,14 @@ void keyDown(unsigned char key, int x, int y) {
 			main_input->over->overworld_menu->handle_key(key);
 		}
 		break;
+	
+	case MAIN_MODE:
+		main_menu_key_handler(key);
+		break;
+	
+	case OPTIONS_MODE:
+		options_menu_key_handler(key);
+		break;
 
 	}
 }
@@ -142,6 +152,14 @@ void keySpecialDown(int key, int x, int y) {
 		}
 		break;
 
+	case MAIN_MODE:
+		main_menu_special_handler(key);
+		break;
+	
+	case OPTIONS_MODE:
+		options_menu_special_handler(key);
+		break;
+
 	}
 }
 
@@ -197,8 +215,8 @@ void overworld_menu_handler(int action) {
 		case 0:
 			main_input->over->unpause();
 			break;
-		case 3:
-			exit(0);
+		case 2:
+			set_mode(MAIN_MODE);
 			break;
 	}
 }

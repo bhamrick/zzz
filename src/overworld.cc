@@ -57,7 +57,6 @@ overworld::overworld() {
 	overworld_menu = new menu();
 	overworld_menu->add_item(new menu_item((char*)"Return to game"));
 	overworld_menu->add_item(new menu_item((char*)"Save"));
-	overworld_menu->add_item(new menu_item((char*)"Options"));
 	overworld_menu->add_item(new menu_item((char*)"Quit game"));
 	paused = false;
 }
@@ -67,7 +66,6 @@ overworld::overworld(char* fname) {
 	overworld_menu = new menu();
 	overworld_menu->add_item(new menu_item((char*)"Return to game"));
 	overworld_menu->add_item(new menu_item((char*)"Save"));
-	overworld_menu->add_item(new menu_item((char*)"Options"));
 	overworld_menu->add_item(new menu_item((char*)"Quit game"));
 	paused = false;
 }
@@ -109,6 +107,11 @@ void overworld::draw() {
 	draw_circle(current_loc->pos, 0.03);
 	
 	draw_string(-0.99, 0.99, current_loc->levelname);
+	if(current_loc->cleared) {
+		char recordstr[20];
+		sprintf(recordstr,"Best time: %.2lf",current_loc->record);
+		draw_string(-0.99, 0.99-line_height(), recordstr);
+	}
 
 	if(paused) {
 		overworld_menu->draw();
@@ -128,6 +131,7 @@ void overworld::load(char* fname) {
 	for(int i = 0; i<N; i++) {
 		add_location(new overworld_loc());
 	}
+	starting_loc = locs[S];
 	for(int i = 0; i<N; i++) {
 		locs[i]->levelname = new char[17];
 		int u, r, d, l;
@@ -178,4 +182,38 @@ void overworld::unpause() {
 
 void overworld::clear_current() {
 	current_loc->cleared = true;
+}
+
+void overworld::load_save(char* fname) {
+	FILE *fin = fopen(fname,"r");
+	for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
+		int a;
+		fscanf(fin,"%d",&a);
+		if(a) {
+			(*iter)->cleared = true;
+			fscanf(fin,"%lf",&(*iter)->record);
+		} else {
+			(*iter)->cleared = false;
+		}
+	}
+	fclose(fin);
+}
+
+void overworld::write_save(char* fname) {
+	FILE *fout= fopen(fname,"w");
+	for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
+		if((*iter)->cleared) {
+			fprintf(fout,"1 %.2lf\n",(*iter)->record);
+		} else {
+			fprintf(fout,"0\n");
+		}
+	}
+	fclose(fout);
+}
+
+void overworld::new_game() {
+	for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
+		(*iter)->cleared = false;
+	}
+	current_loc = starting_loc;
 }

@@ -1,7 +1,7 @@
 #ifndef MODE_H
 #define MODE_H
 
-enum mode {WORLD_MODE, OVERWORLD_MODE};
+enum mode {MAIN_MODE, WORLD_MODE, OVERWORLD_MODE, OPTIONS_MODE};
 
 #include<display.hh>
 #include<update.hh>

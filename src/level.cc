@@ -42,4 +42,6 @@ void load(char* fname, world* w) {
 		}
 	}
 	fclose(fin);
+
+	w->timestamp = 0.0;
 }

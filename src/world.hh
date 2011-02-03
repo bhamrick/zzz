@@ -28,6 +28,7 @@ class world {
 	input* input_handler;
 	view* main_view;
 	bool paused;
+	double timestamp;
 	
 	vec goal;
 

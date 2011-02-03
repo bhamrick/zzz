@@ -5,6 +5,8 @@
 #include<const.hh>
 #include<cstring>
 #include<ctype.h>
+#include<main_screen.hh>
+#include<options.hh>
 
 world* display_world;
 overworld* display_overworld;
@@ -17,6 +19,12 @@ void display() {
 			break;
 		case OVERWORLD_MODE:
 			display_overworld->draw();
+			break;
+		case MAIN_MODE:
+			draw_main_screen();
+			break;
+		case OPTIONS_MODE:
+			draw_options_screen();
 			break;
 	}
 	glFlush();

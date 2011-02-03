@@ -5,6 +5,8 @@
 #include<update.hh>
 #include<spring.hh>
 #include<level.hh>
+#include<main_screen.hh>
+#include<options.hh>
 
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);
@@ -16,12 +18,13 @@ int main(int argc, char** argv) {
 	overworld* ow = new overworld((char*)"files/overworld");
 	world* w = new world(ow);
 
-	load((char*)"levels/test",w);
-//	load((char*)"levels/parabola",w);
+	new input(NULL, w);
 
+	init_main_screen(ow);
+	init_options_menu();
 	init_global_update(w);
 	init_display(w, ow);
-	set_mode(OVERWORLD_MODE);
+	set_mode(MAIN_MODE);
 
 	glutDisplayFunc(display);
 	glutTimerFunc(10,refresh,0);

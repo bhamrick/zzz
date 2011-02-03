@@ -14,6 +14,7 @@ class overworld_loc {
 	char* levelname;
 	overworld_loc *up, *right, *down, *left;
 	bool cleared;
+	double record;
 	std::vector<overworld_loc*> prereqs;
 	
 	overworld_loc();
@@ -27,6 +28,7 @@ class overworld_loc {
 class overworld {
 	public:
 	std::vector<overworld_loc*> locs;
+	overworld_loc* starting_loc;
 	overworld_loc* current_loc;
 	menu* overworld_menu;
 	bool paused;
@@ -37,6 +39,9 @@ class overworld {
 	void draw();
 	void set_current_location(overworld_loc*);
 	void load(char*);
+	void load_save(char*);
+	void write_save(char*);
+	void new_game();
 	void transition(int);
 	void pause();
 	void unpause();
