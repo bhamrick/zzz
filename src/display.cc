@@ -7,6 +7,7 @@
 #include<ctype.h>
 #include<main_screen.hh>
 #include<options.hh>
+#include<message.hh>
 
 world* display_world;
 overworld* display_overworld;
@@ -25,6 +26,9 @@ void display() {
 			break;
 		case OPTIONS_MODE:
 			draw_options_screen();
+			break;
+		case MESSAGE_MODE:
+			draw_message();
 			break;
 	}
 	glFlush();
@@ -64,11 +68,27 @@ void draw_string(double x, double y, char* s) {
 	glPushMatrix();
 	glLoadIdentity();
 	double dy = 40./glutGet(GLUT_WINDOW_HEIGHT);
+	double line_skip = (double)40./glutGet(GLUT_WINDOW_HEIGHT);
 	glRasterPos2d(x,y-dy);
+	int line = 0;
 	for(int i = 0; i<strlen(s); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (s[i] == '_' ? ' ' : toupper(s[i])));
+		if(s[i] == '\n') {
+			line++;
+			glRasterPos2d(x,y-dy-line*line_skip);
+		} else {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (s[i] == '_' ? ' ' : toupper(s[i])));
+		}
 	}
 	glPopMatrix();
+}
+
+double string_width(char* s) {
+	double w = 0.0;
+	int window_width = glutGet(GLUT_WINDOW_WIDTH);
+	for(int i = 0; i<strlen(s); i++) {
+		w += (double)glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, (s[i]=='_' ? ' ' : toupper(s[i]))) / (window_width/2.0);
+	}
+	return w;
 }
 
 double line_height() {

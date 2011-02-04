@@ -4,6 +4,7 @@
 #include<cstring>
 #include<cstdio>
 #include<ctype.h>
+#include<cstdlib>
 
 overworld_loc::overworld_loc() {
 	levelname = NULL;
@@ -127,6 +128,11 @@ void overworld::set_current_location(overworld_loc* l) {
 void overworld::load(char* fname) {
 	int N, S;
 	FILE *fin = fopen(fname,"r");
+	if(!fin) {
+		printf("Overworld file not found\n");
+		exit(1);
+		return;
+	}
 	fscanf(fin,"%d%d",&N,&S);
 	for(int i = 0; i<N; i++) {
 		add_location(new overworld_loc());
@@ -186,6 +192,10 @@ void overworld::clear_current() {
 
 void overworld::load_save(char* fname) {
 	FILE *fin = fopen(fname,"r");
+	if(!fin) {
+		new_game();
+		return;
+	}
 	for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
 		int a;
 		fscanf(fin,"%d",&a);

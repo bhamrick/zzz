@@ -7,6 +7,7 @@
 #include<level.hh>
 #include<main_screen.hh>
 #include<options.hh>
+#include<message.hh>
 
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);
@@ -20,11 +21,15 @@ int main(int argc, char** argv) {
 
 	new input(NULL, w);
 
+	set_options(OPTION_SHOW_TIME);
+
 	init_main_screen(ow);
 	init_options_menu();
 	init_global_update(w);
 	init_display(w, ow);
 	set_mode(MAIN_MODE);
+
+	init_message("Welcome to ZZZ\n----------------\nUse left and right to\nmove and up to jump");
 
 	glutDisplayFunc(display);
 	glutTimerFunc(10,refresh,0);

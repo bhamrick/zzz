@@ -3,6 +3,7 @@
 #include<cstdlib>
 #include<main_screen.hh>
 #include<options.hh>
+#include<message.hh>
 
 input* main_input;
 mode input_mode;
@@ -83,6 +84,10 @@ void keyDown(unsigned char key, int x, int y) {
 		options_menu_key_handler(key);
 		break;
 
+	case MESSAGE_MODE:
+		restore_state();
+		break;
+
 	}
 }
 
@@ -159,6 +164,10 @@ void keySpecialDown(int key, int x, int y) {
 	case OPTIONS_MODE:
 		options_menu_special_handler(key);
 		break;
+	
+	case MESSAGE_MODE:
+		restore_state();
+		break;
 
 	}
 }
@@ -214,6 +223,9 @@ void overworld_menu_handler(int action) {
 	switch(action) {
 		case 0:
 			main_input->over->unpause();
+			break;
+		case 1:
+			main_input->over->write_save("files/savefile");
 			break;
 		case 2:
 			set_mode(MAIN_MODE);

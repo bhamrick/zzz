@@ -13,6 +13,7 @@ void draw_goal(vec);
 void display_set_mode(mode);
 void draw_string(vec,char*);
 void draw_string(double, double, char*);
+double string_width(char*);
 double line_height();
 
 #endif

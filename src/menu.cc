@@ -26,15 +26,21 @@ void menu::draw() {
 	double lh = line_height();
 	double eps = 1e-2;
 
-	int longest_string = 0;
-	for(int i = 0; i<items.size(); i++) {
-		int tlen = strlen(items[i]->text);
-		if(tlen > longest_string) {
-			longest_string = tlen;
-		}
-	}
+//	int longest_string = 0;
+//	for(int i = 0; i<items.size(); i++) {
+//		int tlen = strlen(items[i]->text);
+//		if(tlen > longest_string) {
+//			longest_string = tlen;
+//		}
+//	}
 	
-	double menu_width = lh*(longest_string + 1);
+	double menu_width = 0.0;
+	for(int i = 0; i<items.size(); i++) {
+		double tw = lh + string_width(items[i]->text);
+		if(tw > menu_width) menu_width = tw;
+	}
+	menu_width += lh/5.;
+//	double menu_width = lh*(longest_string + 1);
 	double menu_height = lh*(items.size());
 
 	glColor3f(0.0,0.0,1.0);

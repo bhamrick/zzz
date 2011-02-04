@@ -37,6 +37,7 @@ void main_menu_action_handler(int index) {
 			main_overworld->unpause();
 			break;
 		case 2:
+			set_mode(OPTIONS_MODE);
 			break;
 		case 3:
 			exit(0);

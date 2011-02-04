@@ -1,5 +1,6 @@
 #include<world.hh>
 #include<cstdio>
+#include<options.hh>
 
 world::world(overworld* over) {
 	paused = false;
@@ -129,9 +130,11 @@ void world::draw() {
 	}
 	glEnd();
 
-	char timestr[10];
-	sprintf(timestr,"%.2lf",timestamp);
-	draw_string(-0.05,1.0,timestr);
+	if(is_option_set(OPTION_SHOW_TIME)) {
+		char timestr[10];
+		sprintf(timestr,"%.2lf",timestamp);
+		draw_string(-0.05,1.0,timestr);
+	}
 	
 	if(paused && world_menu) {
 		world_menu->draw();
