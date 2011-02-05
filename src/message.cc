@@ -4,6 +4,7 @@
 #include<mode.hh>
 #include<cstring>
 #include<ctype.h>
+#include<cstdio>
 
 char* message;
 mode old_mode;
@@ -34,7 +35,9 @@ void draw_message() {
 	if(lw > mw) {
 		mw = lw;
 	}
-
+	
+	glPushMatrix();
+	glLoadIdentity();
 	glColor3f(0.0,0.0,1.0);
 	glBegin(GL_QUADS);
 		glVertex2f(-(mw/2. + 0.01), -(mh/2. + 0.01));
@@ -45,4 +48,5 @@ void draw_message() {
 
 	glColor3f(1.0,1.0,1.0);
 	draw_string(-mw/2.,mh/2.,message);
+	glPopMatrix();
 }
