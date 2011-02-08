@@ -8,8 +8,9 @@ void load(char* fname, world* w) {
 	w->characters.clear();
 	FILE *fin = fopen(fname, "r");
 	vec start;
-	fscanf(fin,"%lf%lf",&start.x,&start.y);
-	character* player = new character(0.03,1.0,start);
+	double pradius;
+	fscanf(fin,"%lf%lf%lf",&start.x,&start.y,&pradius);
+	character* player = new character(pradius,1.0,start);
 	w->add_character(player);
 	w->player = player;
 	w->main_view->follow(player);
