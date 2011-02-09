@@ -8,6 +8,7 @@
 #include<main_screen.hh>
 #include<options.hh>
 #include<message.hh>
+#include<textures.hh>
 
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);
@@ -23,6 +24,7 @@ int main(int argc, char** argv) {
 
 	set_options(OPTION_SHOW_TIME);
 
+	init_textures();
 	init_main_screen(ow);
 	init_options_menu();
 	init_global_update(w);

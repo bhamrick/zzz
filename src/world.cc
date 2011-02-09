@@ -105,11 +105,14 @@ void world::draw() {
 	glLoadIdentity();
 	glTranslatef(-(main_view->minx + main_view->maxx)/2., -(main_view->miny + main_view->maxy)/2., 0.0);
 
-	glClearColor(1.0,1.0,1.0,0.0);
-	glColor3f(0.0,0.0,0.0);
+//	glClearColor(1.0,1.0,1.0,0.0);
+//	glColor3f(0.0,0.0,0.0);
+//
+//	glClear(GL_COLOR_BUFFER_BIT);
+	
+	draw_background(vec(0,0));
 
-	glClear(GL_COLOR_BUFFER_BIT);
-
+	glColor3f(1.0,1.0,1.0);
 	glBegin(GL_QUADS);
 	for(std::vector<mass*>::iterator iter = masses.begin(); iter != masses.end(); iter++) {
 		double x = (*iter)->position.x, y = (*iter)->position.y;
@@ -129,7 +132,8 @@ void world::draw() {
 	glEnd();
 
 	for(std::vector<character*>::iterator iter = characters.begin(); iter != characters.end(); iter++) {
-		draw_circle((*iter)->position,(*iter)->radius);
+		draw_player((*iter)->position,(*iter)->radius);
+//		draw_circle((*iter)->position,(*iter)->radius);
 //		glBegin(GL_LINES);
 //			glVertex2f((*iter)->position.x, (*iter)->position.y);
 //			glVertex2f((*iter)->position.x - 0.05*(*iter)->momentum.x, (*iter)->position.y - 0.05*(*iter)->momentum.y);

@@ -80,10 +80,14 @@ void overworld::draw() {
 	glPushMatrix();
 	glLoadIdentity();
 
-	glClearColor(1.0,1.0,1.0,0.0);
-	glColor3f(0.0,0.0,0.0);
+//	glClearColor(1.0,1.0,1.0,0.0);
+//	glColor3f(0.0,0.0,0.0);
+//
+//	glClear(GL_COLOR_BUFFER_BIT);
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	draw_background(vec());
+
+	glColor3f(1.0,1.0,1.0);
 	
 	glBegin(GL_QUADS);
 		for(std::vector<overworld_loc*>::iterator iter = locs.begin(); iter != locs.end(); iter++) {
@@ -103,7 +107,7 @@ void overworld::draw() {
 		}
 	glEnd();
 
-	glColor3f(0.0,0.0,0.0);
+	glColor3f(1.0,1.0,1.0);
 
 	draw_circle(current_loc->pos, 0.03);
 	

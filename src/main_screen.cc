@@ -3,6 +3,7 @@
 #include<GL/glut.h>
 #include<cstdlib>
 #include<mode.hh>
+#include<display.hh>
 
 menu *main_menu;
 overworld *main_overworld;
@@ -19,8 +20,9 @@ void init_main_screen(overworld* ow) {
 }
 
 void draw_main_screen() {
-	glClearColor(1.0, 1.0, 1.0, 0.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+//	glClearColor(1.0, 1.0, 1.0, 0.0);
+//	glClear(GL_COLOR_BUFFER_BIT);
+	draw_background(vec());
 	main_menu->draw();
 }
 

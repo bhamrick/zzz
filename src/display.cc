@@ -8,6 +8,7 @@
 #include<main_screen.hh>
 #include<options.hh>
 #include<message.hh>
+#include<textures.hh>
 
 world* display_world;
 overworld* display_overworld;
@@ -39,6 +40,9 @@ void init_display(world* w, overworld* ow) {
 	display_world = w;
 	display_overworld = ow;
 	display_mode = OVERWORLD_MODE;
+	
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void refresh(int value) {
@@ -54,6 +58,19 @@ void draw_circle(vec center, double radius) {
 		glVertex2f(center.x + radius*cos(2*pi*(i+1)/N), center.y + radius*sin(2*pi*(i+1)/N));
 	}
 	glEnd();
+}
+
+void draw_player(vec center, double radius) {
+	use_player_texture();
+	double x = center.x, y = center.y;
+	double eps = 5*radius;
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0,0.0); glVertex2f(x-eps,y-eps);
+	glTexCoord2f(1.0,0.0); glVertex2f(x+eps,y-eps);
+	glTexCoord2f(1.0,1.0); glVertex2f(x+eps,y+eps);
+	glTexCoord2f(0.0,1.0); glVertex2f(x-eps,y+eps);
+	glEnd();
+	end_texture();
 }
 
 void display_set_mode(mode m) {
@@ -93,4 +110,19 @@ double string_width(char* s) {
 
 double line_height() {
 	return 50./glutGet(GLUT_WINDOW_HEIGHT);
+}
+
+void draw_background(vec center) {
+	double eps = 1/16.;
+	use_background_texture();
+	glPushMatrix();
+	glLoadIdentity();
+	glBegin(GL_QUADS);
+	glTexCoord2f(center.x - eps, center.y - eps); glVertex2f(-1.0,-1.0);
+	glTexCoord2f(center.x + eps, center.y - eps); glVertex2f( 1.0,-1.0);
+	glTexCoord2f(center.x + eps, center.y + eps); glVertex2f( 1.0, 1.0);
+	glTexCoord2f(center.x - eps, center.y + eps); glVertex2f(-1.0, 1.0);
+	glEnd();
+	glPopMatrix();
+	end_texture();
 }
