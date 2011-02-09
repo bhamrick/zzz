@@ -43,7 +43,7 @@ void menu::draw() {
 //	double menu_width = lh*(longest_string + 1);
 	double menu_height = lh*(items.size());
 
-	glColor3f(0.0,0.0,1.0);
+	glColor3f(0.0,0.0,0.0);
 	glBegin(GL_QUADS);
 		glVertex2f(-menu_width/2.,-menu_height/2.);
 		glVertex2f( menu_width/2.,-menu_height/2.);

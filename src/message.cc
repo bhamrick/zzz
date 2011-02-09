@@ -38,7 +38,7 @@ void draw_message() {
 	
 	glPushMatrix();
 	glLoadIdentity();
-	glColor3f(0.0,0.0,1.0);
+	glColor3f(0.0,0.0,0.0);
 	glBegin(GL_QUADS);
 		glVertex2f(-(mw/2. + 0.01), -(mh/2. + 0.01));
 		glVertex2f((mw/2. + 0.01), -(mh/2. + 0.01));
