@@ -4,6 +4,7 @@ class view;
 #define VIEW_H
 
 #include<character.hh>
+#include<vec.hh>
 
 class view {
 	public:
@@ -15,6 +16,7 @@ class view {
 	void reset();
 	void follow(character*);
 	void unfollow();
+	vec center();
 };
 
 #endif

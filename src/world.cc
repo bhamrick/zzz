@@ -110,7 +110,7 @@ void world::draw() {
 //
 //	glClear(GL_COLOR_BUFFER_BIT);
 	
-	draw_background(vec(0,0));
+	draw_background(main_view->center()/96.);
 
 	glColor3f(1.0,1.0,1.0);
 	glBegin(GL_QUADS);

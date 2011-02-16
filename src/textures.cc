@@ -1,9 +1,13 @@
 #include<textures.hh>
 #include<GL/glut.h>
 #include<cmath>
+#include<ctime>
+#include<cstdlib>
+#include<color.hh>
 
 const int ptex_size = 128;
 const int bgtex_size = 4096;
+const int num_stars = 15000;
 
 GLuint player_texture, background_texture;
 
@@ -28,12 +32,31 @@ void make_player_texture() {
 }
 
 void make_background_texture() {
+	srand(time(NULL));
 	for(int i = 0; i<bgtex_size; i++) {
 		for(int j = 0; j<bgtex_size; j++) {
 			background_tex[i][j][0] = (GLubyte) 0;
 			background_tex[i][j][1] = (GLubyte) 0;
 			background_tex[i][j][2] = (GLubyte) 0;
 			background_tex[i][j][3] = (GLubyte) 255;
+		}
+	}
+	for(int i = 0; i<num_stars; i++) {
+		int x = rand()%bgtex_size, y = rand()%bgtex_size;
+		double h = (double)rand()/RAND_MAX, s = (double)rand()/RAND_MAX, v = 1;
+		int star_radius = rand()%4;
+		for(int dx = -star_radius; dx <= star_radius; dx++) {
+			for(int dy = -star_radius; dy <= star_radius; dy++) {
+				//double d = sqrt(dx*dx + dy*dy);
+				double d = sqrt(dx*dx) + sqrt(dy*dy);
+				color c = colorHSV(h,s,v*(1-d/star_radius)*(1-d/star_radius));
+				if(d <= star_radius && x + dx >= 0 && x + dx < bgtex_size && y + dy >= 0 && y + dy < bgtex_size) {
+					background_tex[x+dx][y+dy][0] = (GLubyte) 255*c.r;
+					background_tex[x+dx][y+dy][1] = (GLubyte) 255*c.b;
+					background_tex[x+dx][y+dy][2] = (GLubyte) 255*c.g;
+					background_tex[x+dx][y+dy][3] = (GLubyte) 255;
+				}
+			}
 		}
 	}
 }

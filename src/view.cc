@@ -58,3 +58,7 @@ void view::reset() {
 		maxy = 1;
 	}
 }
+
+vec view::center() {
+	return vec((minx + maxx)/2.,(miny + maxy)/2.);
+}
