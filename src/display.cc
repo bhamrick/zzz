@@ -13,8 +13,23 @@
 world* display_world;
 overworld* display_overworld;
 mode display_mode;
+bool ready_for_next_message = 0;
 
 void display() {
+	if(display_mode != MESSAGE_MODE) {
+		char* m = front_message();
+		if(m) {
+			if(ready_for_next_message) {
+				init_message(m);
+				pop_message();
+				ready_for_next_message = 0;
+			} else {
+				ready_for_next_message = 1;
+			}
+		} else {
+			ready_for_next_message = 0;
+		}
+	}
 	switch(display_mode) {
 		case WORLD_MODE:
 			display_world->draw();

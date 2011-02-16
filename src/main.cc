@@ -9,6 +9,7 @@
 #include<options.hh>
 #include<message.hh>
 #include<textures.hh>
+#include<cstdio>
 
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);

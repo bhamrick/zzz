@@ -5,9 +5,11 @@
 #include<cstring>
 #include<ctype.h>
 #include<cstdio>
+#include<queue>
 
 char* message;
 mode old_mode;
+std::queue<char*> global_message_queue;
 
 void init_message(char* s) {
 	old_mode = get_current_mode();
@@ -49,4 +51,19 @@ void draw_message() {
 	glColor3f(1.0,1.0,1.0);
 	draw_string(-mw/2.,mh/2.,message);
 	glPopMatrix();
+}
+
+void push_message(char* c) {
+	global_message_queue.push(c);
+}
+
+char* front_message() {
+	if(global_message_queue.empty()) {
+		return (char*)NULL;
+	}
+	return global_message_queue.front();
+}
+
+void pop_message() {
+	global_message_queue.pop();
 }

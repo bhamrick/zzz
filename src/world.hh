@@ -23,7 +23,6 @@ class world {
 	std::vector<mass*> masses;
 	std::vector<spring*> springs;
 	std::vector<character*> characters;
-	std::queue<world_message*> messages;
 	character* player;
 	struct timeval last_update;
 	overworld* over;
@@ -48,14 +47,6 @@ class world {
 	void draw();
 	void draw_goal();
 	void win();
-};
-
-class world_message {
-	public:
-	char* text;
-	double timestamp;
-
-	world_message(double,char*);
 };
 
 #endif

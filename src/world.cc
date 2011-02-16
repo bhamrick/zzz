@@ -53,15 +53,6 @@ void world::update() {
 		win();
 	}
 
-	// Check for messages
-	if(!messages.empty()) {
-		world_message* m = messages.front();
-		if(timestamp > m->timestamp) {
-			init_message(m->text);
-			messages.pop();
-		}
-	}
-
 	last_update = now;
 }
 
@@ -75,10 +66,6 @@ void world::add_spring(spring* s) {
 
 void world::add_character(character* c) {
 	characters.push_back(c);
-}
-
-void world::queue_message(world_message* m) {
-	messages.push(m);
 }
 
 void world::pause() {
@@ -166,9 +153,4 @@ void world::win() {
 	}
 	over->clear_current();
 	set_mode(OVERWORLD_MODE);
-}
-
-world_message::world_message(double t, char* s) {
-	text = s;
-	timestamp = t;
 }

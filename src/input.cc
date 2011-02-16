@@ -226,6 +226,8 @@ void overworld_menu_handler(int action) {
 			break;
 		case 1:
 			main_input->over->write_save("files/savefile");
+			main_input->over->unpause();
+			push_message("\nYour progress\nhas been saved.\n");
 			break;
 		case 2:
 			set_mode(MAIN_MODE);

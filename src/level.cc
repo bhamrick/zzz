@@ -2,6 +2,7 @@
 #include<cstdio>
 #include<sys/stat.h>
 #include<cstdlib>
+#include<message.hh>
 
 void load(char* fname, world* w) {
 	w->masses.clear();
@@ -64,7 +65,7 @@ void load(char* fname, world* w) {
 			count--;
 		}
 		
-		w->queue_message(new world_message(0.02, buf));
+		push_message(buf);
 	}
 
 	fclose(fin);
