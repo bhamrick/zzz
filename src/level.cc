@@ -1,6 +1,7 @@
 #include<level.hh>
 #include<cstdio>
 #include<sys/stat.h>
+#include<cstdlib>
 
 void load(char* fname, world* w) {
 	w->masses.clear();
@@ -14,6 +15,7 @@ void load(char* fname, world* w) {
 	w->add_character(player);
 	w->player = player;
 	w->main_view->follow(player);
+	w->bg_center = vec((double)rand()/RAND_MAX,(double)rand()/RAND_MAX);
 	if(w->input_handler) {
 		w->input_handler->mover = player;
 	} else {

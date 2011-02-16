@@ -30,6 +30,7 @@ class world {
 	menu* world_menu;
 	input* input_handler;
 	view* main_view;
+	vec bg_center;
 	bool paused;
 	double timestamp;
 	
