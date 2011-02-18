@@ -9,6 +9,7 @@
 #include<options.hh>
 #include<message.hh>
 #include<textures.hh>
+#include<sound.hh>
 #include<cstdio>
 
 int main(int argc, char** argv) {
@@ -31,6 +32,8 @@ int main(int argc, char** argv) {
 	init_global_update(w);
 	init_display(w, ow);
 	set_mode(MAIN_MODE);
+
+	init_sound();
 
 	glutDisplayFunc(display);
 	glutTimerFunc(10,refresh,0);
