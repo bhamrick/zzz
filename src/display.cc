@@ -9,6 +9,7 @@
 #include<options.hh>
 #include<message.hh>
 #include<textures.hh>
+#include<init.hh>
 
 world* display_world;
 overworld* display_overworld;
@@ -45,6 +46,10 @@ void display() {
 			break;
 		case MESSAGE_MODE:
 			draw_message();
+			break;
+		case LOADING_MODE:
+			draw_loading_screen();
+			glutTimerFunc(100,main_init,0);
 			break;
 	}
 	glFlush();
@@ -114,6 +119,25 @@ void draw_string(double x, double y, char* s) {
 	glPopMatrix();
 }
 
+void draw_centered_string(double x, double y, char* s) {
+	glPushMatrix();
+	glLoadIdentity();
+	double dy = 40./glutGet(GLUT_WINDOW_HEIGHT);
+	double line_skip = (double)40./glutGet(GLUT_WINDOW_HEIGHT);
+	double dx = string_width(s);
+	glRasterPos2d(x-dx/2,y-dy/2);
+	int line = 0;
+	for(int i = 0; i<strlen(s); i++) {
+		if(s[i] == '\n') {
+			line++;
+			glRasterPos2d(x-dx/2,y-0.5*(dy-line*line_skip));
+		} else {
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (s[i] == '_' ? ' ' : toupper(s[i])));
+		}
+	}
+	glPopMatrix();
+}
+
 double string_width(char* s) {
 	double w = 0.0;
 	int window_width = glutGet(GLUT_WINDOW_WIDTH);
@@ -140,4 +164,11 @@ void draw_background(vec center) {
 	glEnd();
 	glPopMatrix();
 	end_texture();
+}
+
+void draw_loading_screen() {
+	glClearColor(0.0,0.0,0.0,0.0);
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(1.0,1.0,1.0);
+	draw_centered_string(0.0,0.0,"Loading...");
 }

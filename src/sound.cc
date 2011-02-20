@@ -88,8 +88,13 @@ void init_sound() {
 			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);
 		}
 	}
-	//freq = 261.6/2*4./3*semitone*semitone;
-	freq = 261.6/2*1.414*semitone;
+	freq = 261.6/2*semitone*semitone*semitone*semitone*semitone;
+	for(int harmonic = 1; harmonic < 200; harmonic++) {
+		if(harmonic * freq < sample_rate) {
+			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);
+		}
+	}
+	freq = 261.6/2*semitone*semitone*semitone*semitone*semitone*semitone*semitone*semitone*semitone;
 	for(int harmonic = 1; harmonic < 200; harmonic++) {
 		if(harmonic * freq < sample_rate) {
 			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);

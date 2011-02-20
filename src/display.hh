@@ -14,8 +14,10 @@ void draw_goal(vec);
 void display_set_mode(mode);
 void draw_string(vec,char*);
 void draw_string(double, double, char*);
+void draw_centered_string(double, double, char*);
 void draw_background(vec);
 double string_width(char*);
 double line_height();
+void draw_loading_screen();
 
 #endif

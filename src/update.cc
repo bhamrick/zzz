@@ -1,12 +1,15 @@
 #include<update.hh>
+#include<init.hh>
 #include<cstdio>
 
 world* global_update_world;
 mode update_mode;
 
 void global_update() {
-	if(update_mode == WORLD_MODE) {
-		global_update_world->update();
+	switch(update_mode) {
+		case WORLD_MODE:
+			global_update_world->update();
+			break;
 	}
 }
 

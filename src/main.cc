@@ -1,16 +1,6 @@
 #include<cstdlib>
 #include<GL/glut.h>
 #include<display.hh>
-#include<world.hh>
-#include<update.hh>
-#include<spring.hh>
-#include<level.hh>
-#include<main_screen.hh>
-#include<options.hh>
-#include<message.hh>
-#include<textures.hh>
-#include<sound.hh>
-#include<cstdio>
 
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);
@@ -18,25 +8,11 @@ int main(int argc, char** argv) {
 
 	glutInitWindowSize(600,600);
 	glutCreateWindow("zzz");
+
+	set_mode(LOADING_MODE);
 	
-	overworld* ow = new overworld((char*)"files/overworld");
-	world* w = new world(ow);
-
-	new input(NULL, w);
-
-	set_options(OPTION_SHOW_TIME);
-
-	init_textures();
-	init_main_screen(ow);
-	init_options_menu();
-	init_global_update(w);
-	init_display(w, ow);
-	set_mode(MAIN_MODE);
-
-	init_sound();
-
 	glutDisplayFunc(display);
-	glutTimerFunc(10,refresh,0);
+	glutTimerFunc(0,refresh,0);
 	glutIdleFunc(global_update);
 	glutMainLoop();
 
