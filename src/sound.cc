@@ -45,73 +45,13 @@ void init_sound() {
 	alSourcei(global_sound_source, AL_SOURCE_RELATIVE, AL_TRUE);
 	alSourcef(global_sound_source, AL_GAIN, 1.0);
 	alSource3f(global_sound_source, AL_POSITION, 0.0, 0.0, 0.0);
-	alListenerf(AL_GAIN, 0.5);
+	alListenerf(AL_GAIN, 1.0);
 
-//	double max_amp = 0.0;
-//	double freq = 261.6;
-//	for(int i = 0; i<100000; i++) {
-//		temp_buffer[i] = 0;
-//		
-//		if(12*i/sample_rate != 12*(i-1)/sample_rate) {
-//			if(rand()%2) {
-//				freq *= semitone;
-//			} else {
-//				freq /= semitone;
-//			}
-//		}
-//		for(int harmonic = 1; harmonic<10; harmonic++) {
-//			temp_buffer[i] += harmonic*harmonic*exp(-harmonic)*sin(2*pi*i*freq*harmonic/sample_rate);
-//		}
-//		//freq = sqrt(220*330.);
-//		//for(int harmonic = 1; harmonic<100; harmonic++) {
-//		//	temp_buffer[i] += harmonic*exp(-harmonic)*sin(2*pi*i*freq*harmonic/sample_rate);
-//		//}
-//		//freq = 165.;
-//		//for(int harmonic = 1; harmonic<100; harmonic++) {
-//		//	temp_buffer[i] += harmonic*exp(-harmonic)*sin(2*pi*i*freq*harmonic/sample_rate);
-//		//}
-//		
-//		if(abs(temp_buffer[i]) > max_amp) {
-//			max_amp = abs(temp_buffer[i]);
-//		}
-//	}
-//	for(int i = 0; i < 100000; i++) {
-//		test_buffer[i] = (short)((32767./max_amp)*temp_buffer[i]);
-//	}
-
-	for(int i = 0; i<131072; i++) {
-		temp_prebuf[i] = std::complex<double>(0.0,0.0);
-	}
-	double freq = 261.6/2;
-	for(int harmonic = 1; harmonic < 200; harmonic++) {
-		if(harmonic * freq < sample_rate) {
-			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);
-		}
-	}
-	freq = 261.6/2*semitone*semitone*semitone*semitone*semitone;
-	for(int harmonic = 1; harmonic < 200; harmonic++) {
-		if(harmonic * freq < sample_rate) {
-			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);
-		}
-	}
-	freq = 261.6/2*semitone*semitone*semitone*semitone*semitone*semitone*semitone*semitone*semitone;
-	for(int harmonic = 1; harmonic < 200; harmonic++) {
-		if(harmonic * freq < sample_rate) {
-			temp_prebuf[(int)(harmonic*freq * 131072. / sample_rate)] += harmonic*exp(-log(10)/5*harmonic)*std::complex<double>(1.0,0.0);
-		}
-	}
 	
-	//clarinet?
-//	temp_prebuf[(int)(1*freq * 131072/sample_rate)] = std::complex<double>(12.59,0.0);
-//	temp_prebuf[(int)(3*freq * 131072/sample_rate)] = std::complex<double>(7.41,0.0);
-//	temp_prebuf[(int)(5*freq * 131072/sample_rate)] = std::complex<double>(5.13,0.0);
-//	temp_prebuf[(int)(7*freq * 131072/sample_rate)] = std::complex<double>(1.20,0.0);
-//	temp_prebuf[(int)(9*freq * 131072/sample_rate)] = std::complex<double>(1.51,0.0);
-	//flute?
-//	temp_prebuf[(int)(1*freq * 131072/sample_rate)] = std::complex<double>(19.95,0.0);
-//	temp_prebuf[(int)(3*freq * 131072/sample_rate)] = std::complex<double>(23.44,0.0);
-//	temp_prebuf[(int)(5*freq * 131072/sample_rate)] = std::complex<double>(6.166,0.0);
-//	temp_prebuf[(int)(7*freq * 131072/sample_rate)] = std::complex<double>(1.288,0.0);
+	add_tone(temp_prebuf, 131072, 14);
+	add_tone(temp_prebuf, 131072, 18);
+	add_tone(temp_prebuf, 131072, 21);
+
 	fft(temp_prebuf,131072);
 	double max_amp = 0.0;
 	for(int i = 0; i<131072; i++) {
@@ -131,4 +71,55 @@ void init_sound() {
 	alSourceQueueBuffers(global_sound_source,1,&test_buffer_name);
 
 	alSourcePlay(global_sound_source);
+}
+
+void add_tone(std::complex<double>* arr, int N, int tone) {
+	double base_freq = 65.406;
+	int nharms = 38;
+	double harms[] = {
+		26.13,
+		777.99,
+		3590.0,
+		1164.6,
+		330.84,
+		1354.24,
+		640.26,
+		331.68,
+		500.14,
+		86.03,
+		70.35,
+		64.27,
+		82.79,
+		54.78,
+		111.82,
+		74.64,
+		105.78,
+		42.17,
+		13.74,
+		1.71,
+		22.57,
+		28.38,
+		12.74,
+		0.77,
+		26.18,
+		50.98,
+		37.13,
+		40.73,
+		34.17,
+		32.11,
+		17.29,
+		13.48,
+		13.66,
+		16.87,
+		16.78,
+		7.44,
+		11.03,
+		11.94
+	};
+	double freq = base_freq * pow(semitone,tone);
+	for(int harmonic = 1; harmonic <= nharms; harmonic++) {
+		if((int)(harmonic*freq * N/sample_rate) < N) {
+			arr[(int)(harmonic*freq * N/sample_rate)] = harms[harmonic] * std::complex<double>(1.0,0.0);
+		}
+	}
 }

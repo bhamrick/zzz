@@ -10,6 +10,7 @@ mode input_mode;
 
 input::input(character* c, world* w) {
 	main_input = this;
+	keymask = 0;
 	mover = c;
 	force = vec();
 	env = w;
@@ -114,9 +115,11 @@ void keySpecialDown(int key, int x, int y) {
 		switch(key) {
 			case GLUT_KEY_LEFT:
 				main_input->force += vec(-3.0,0.0);
+				main_input->keymask |= 1;
 				break;
 			case GLUT_KEY_RIGHT:
 				main_input->force += vec(3.0,0.0);
+				main_input->keymask |= 2;
 				break;
 			case GLUT_KEY_UP:
 				if(main_input->env->paused) break;
@@ -178,10 +181,16 @@ void keySpecialUp(int key, int x, int y) {
 	case WORLD_MODE:
 		switch(key) {
 			case GLUT_KEY_LEFT:
-				main_input->force += vec(3.0,0.0);
+				if(main_input->keymask & 1) {
+					main_input->force += vec(3.0,0.0);
+				}
+				main_input->keymask &= ~1;
 				break;
 			case GLUT_KEY_RIGHT:
-				main_input->force += vec(-3.0,0.0);
+				if(main_input->keymask & 2) {
+					main_input->force += vec(-3.0,0.0);
+				}
+				main_input->keymask &= ~2;
 				break;
 			case GLUT_KEY_UP:
 				main_input->jumped = false;
@@ -200,7 +209,10 @@ void keySpecialUp(int key, int x, int y) {
 
 void input_set_mode(mode m) {
 	input_mode = m;
-	if(m == WORLD_MODE) main_input->force = vec();
+	if(m == WORLD_MODE) {
+		main_input->force = vec();
+		main_input->keymask = 0;
+	}
 }
 
 void world_menu_handler(int action) {

@@ -13,6 +13,7 @@ class input;
 class input {
 	public:
 	vec force;
+	char keymask;
 	character* mover;
 	world* env;
 	overworld* over;
