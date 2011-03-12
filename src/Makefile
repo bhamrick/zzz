@@ -1,8 +1,8 @@
 CC=g++
-CCFLAGS=-I. -g -O2
+CCFLAGS=-I. -g -O2 -Wall
 LDFLAGS=-lGL -lGLU -lglut -lopenal -g -O2
 TARGET=a.out
-OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o menu.o main_screen.o options.o message.o textures.o color.o sound.o fft.o init.o
+OBJECTS=main.o display.o vec.o world.o mass.o update.o spring.o character.o input.o view.o level.o overworld.o mode.o menu.o main_screen.o options.o message.o textures.o color.o sound.o fft.o init.o filter.o modulator.o source.o note.o
 
 all: $(TARGET)
 
