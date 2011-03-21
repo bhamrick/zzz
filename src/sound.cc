@@ -6,6 +6,7 @@
 #include<cmath>
 #include<cstdlib>
 #include<fft.hh>
+#include<note.hh>
 
 ALCdevice * device;
 ALCcontext * context;
@@ -47,30 +48,39 @@ void init_sound() {
 	alSource3f(global_sound_source, AL_POSITION, 0.0, 0.0, 0.0);
 	alListenerf(AL_GAIN, 1.0);
 
-	
-	add_tone(temp_prebuf, 131072, 14);
-	add_tone(temp_prebuf, 131072, 18);
-	add_tone(temp_prebuf, 131072, 21);
-
-	fft(temp_prebuf,131072);
-	double max_amp = 0.0;
-	for(int i = 0; i<131072; i++) {
-		temp_buffer[i] = temp_prebuf[i].imag();
-	//	printf("%lf\n",temp_buffer[i]);
-		if(abs(temp_buffer[i]) > max_amp) {
-			max_amp = abs(temp_buffer[i]);
-		}
+	init_notes(32.7032, 120, 7, 44000);
+	ALuint* notes = new ALuint[12];
+	for(int i = 0; i<12; i++) {
+		notes[i] = get_note(40+i, 1);
 	}
-	for(int i = 0; i<131072; i++) {
-		test_buffer[i] = (short)((32767./max_amp)*temp_buffer[i]);
-	}
-
-	alGenBuffers(1, &test_buffer_name);
-	//alBufferData(test_buffer_name, AL_FORMAT_MONO16, test_buffer, 200000, sample_rate);
-	alBufferData(test_buffer_name, AL_FORMAT_MONO16, test_buffer, 2*(131072), sample_rate);
-	alSourceQueueBuffers(global_sound_source,1,&test_buffer_name);
-
+	alSourceQueueBuffers(global_sound_source,12,notes);
 	alSourcePlay(global_sound_source);
+	return;
+
+	//OLD CODE
+//	add_tone(temp_prebuf, 131072, 14);
+//	add_tone(temp_prebuf, 131072, 18);
+//	add_tone(temp_prebuf, 131072, 21);
+//
+//	fft(temp_prebuf,131072);
+//	double max_amp = 0.0;
+//	for(int i = 0; i<131072; i++) {
+//		temp_buffer[i] = temp_prebuf[i].imag();
+//	//	printf("%lf\n",temp_buffer[i]);
+//		if(abs(temp_buffer[i]) > max_amp) {
+//			max_amp = abs(temp_buffer[i]);
+//		}
+//	}
+//	for(int i = 0; i<131072; i++) {
+//		test_buffer[i] = (short)((32767./max_amp)*temp_buffer[i]);
+//	}
+//
+//	alGenBuffers(1, &test_buffer_name);
+//	//alBufferData(test_buffer_name, AL_FORMAT_MONO16, test_buffer, 200000, sample_rate);
+//	alBufferData(test_buffer_name, AL_FORMAT_MONO16, test_buffer, 2*(131072), sample_rate);
+//	alSourceQueueBuffers(global_sound_source,1,&test_buffer_name);
+//
+//	alSourcePlay(global_sound_source);
 }
 
 void add_tone(std::complex<double>* arr, int N, int tone) {

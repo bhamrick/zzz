@@ -12,7 +12,7 @@ source::source(source_type type, double freq) {
 	this->freq = freq;
 }
 
-void source::make_waveform(std::complex<double>* buf, int N, int sample_rate) {
+void source::make_waveform(double* buf, int N, int sample_rate) {
 	for(int i = 0; i<N; i++) {
 		double t = (double)i / sample_rate;
 		double v;
