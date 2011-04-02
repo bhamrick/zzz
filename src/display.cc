@@ -67,7 +67,7 @@ void init_display(world* w, overworld* ow) {
 
 void refresh(int value) {
 	glutPostRedisplay();
-	glutTimerFunc(10,refresh,0);
+	glutTimerFunc(20,refresh,0);
 }
 
 void draw_circle(vec center, double radius) {

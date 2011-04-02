@@ -32,5 +32,5 @@ void main_init(int value) {
 	init_display(w, ow);
 	set_mode(MAIN_MODE);
 
-	init_sound();
+//	init_sound();
 }

@@ -21,6 +21,7 @@ void world::update() {
 	struct timeval now;
 	gettimeofday(&now, NULL);
 	double dt = now.tv_sec - last_update.tv_sec + 1e-6*(now.tv_usec - last_update.tv_usec);
+	//printf("%lf\r",dt);
 	if(dt < 0.01 && !paused) {
 		timestamp += dt;
 		input_handler->update(dt);

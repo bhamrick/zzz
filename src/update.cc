@@ -6,6 +6,7 @@ world* global_update_world;
 mode update_mode;
 
 void global_update() {
+//	printf("foo\n");
 	switch(update_mode) {
 		case WORLD_MODE:
 			global_update_world->update();
